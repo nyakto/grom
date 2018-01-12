@@ -1,0 +1,47 @@
+group "com.github.nyakto.grom"
+version "0.0.1"
+
+buildscript {
+    ext.kotlinVersion = "1.2.10"
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+subprojects {
+    apply plugin: "kotlin"
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+    }
+
+    sourceCompatibility = "1.8"
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
+    }
+}
+
+project(":lexer") {
+}
