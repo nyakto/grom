@@ -3,6 +3,7 @@ version "0.0.1"
 
 buildscript {
     ext.kotlinVersion = "1.2.10"
+    ext.junitVersion = "4.12"
 
     repositories {
         mavenCentral()
@@ -24,6 +25,7 @@ subprojects {
 
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+        testCompile "junit:junit:$junitVersion"
     }
 
     sourceCompatibility = "1.8"

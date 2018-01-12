@@ -18,11 +18,13 @@ internal class Lexer(
 
     override fun lex(reader: Reader) {
         val buffer = CharBuffer.allocate(1024)
-        while (reader.read(buffer) > 0) {
-            buffer.forEach {
-                state.onChar(this, it)
+        var count = reader.read(buffer)
+        while (count > 0) {
+            (0 until count).forEach {
+                state.onChar(this, buffer[it])
             }
             buffer.clear()
+            count = reader.read(buffer)
         }
         state.onEOF(this)
     }
