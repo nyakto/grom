@@ -21,6 +21,7 @@ enum class TokenType {
 
     DotOperator,
     CommaOperator,
+    SemicolonOperator,
     IncrementOperator,
     DecrementOperator,
     QuestionMarkOperator,

@@ -27,6 +27,7 @@ internal object Initial : State {
             '.' -> lexer.beginToken(Dot)
             ',' -> lexer.yieldToken(TokenType.CommaOperator, ",")
             ':' -> lexer.yieldToken(TokenType.ColonOperator, ":")
+            ';' -> lexer.yieldToken(TokenType.SemicolonOperator, ";")
             '{' -> lexer.yieldToken(TokenType.LeftBrace, "{")
             '}' -> lexer.yieldToken(TokenType.RightBrace, "}")
             '[' -> lexer.yieldToken(TokenType.LeftBracket, "[")

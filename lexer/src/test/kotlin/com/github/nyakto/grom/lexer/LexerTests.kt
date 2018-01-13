@@ -111,6 +111,16 @@ class LexerTests {
 
     @Test
     fun `can recognize operators`() {
+        "{".assertTokens { token(TokenType.LeftBrace, "{") }
+        "}".assertTokens { token(TokenType.RightBrace, "}") }
+        "[".assertTokens { token(TokenType.LeftBracket, "[") }
+        "]".assertTokens { token(TokenType.RightBracket, "]") }
+        "(".assertTokens { token(TokenType.LeftParenthesis, "(") }
+        ")".assertTokens { token(TokenType.RightParenthesis, ")") }
+        ".".assertTokens { token(TokenType.DotOperator, ".") }
+        ",".assertTokens { token(TokenType.CommaOperator, ",") }
+        ":".assertTokens { token(TokenType.ColonOperator, ":") }
+        ";".assertTokens { token(TokenType.SemicolonOperator, ";") }
         "+".assertTokens { token(TokenType.PlusOperator, "+") }
         "++".assertTokens { token(TokenType.IncrementOperator, "++") }
         "+=".assertTokens { token(TokenType.PlusAssignOperator, "+=") }
