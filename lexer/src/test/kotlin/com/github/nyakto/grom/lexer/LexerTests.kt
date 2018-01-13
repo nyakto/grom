@@ -7,11 +7,20 @@ class LexerTests {
     @Test
     fun `example model declaration`() {
         """
-            model {
+            model Person {
+                firstName: String
+                lastName: String
             }
         """.assertTokens {
             token(TokenType.ModelKeyword)
+            token(TokenType.Word, "Person")
             token(TokenType.LeftBrace)
+            token(TokenType.Word, "firstName")
+            token(TokenType.ColonOperator)
+            token(TokenType.Word, "String")
+            token(TokenType.Word, "lastName")
+            token(TokenType.ColonOperator)
+            token(TokenType.Word, "String")
             token(TokenType.RightBrace)
         }
     }
@@ -19,11 +28,32 @@ class LexerTests {
     @Test
     fun `example view declaration`() {
         """
-            view {
+            view Person {
+                div {
+                    text(firstName)
+                }
+                div {
+                    text(lastName)
+                }
             }
         """.assertTokens {
             token(TokenType.ViewKeyword)
+            token(TokenType.Word, "Person")
             token(TokenType.LeftBrace)
+            token(TokenType.Word, "div")
+            token(TokenType.LeftBrace)
+            token(TokenType.Word, "text")
+            token(TokenType.LeftParenthesis)
+            token(TokenType.Word, "firstName")
+            token(TokenType.RightParenthesis)
+            token(TokenType.RightBrace)
+            token(TokenType.Word, "div")
+            token(TokenType.LeftBrace)
+            token(TokenType.Word, "text")
+            token(TokenType.LeftParenthesis)
+            token(TokenType.Word, "lastName")
+            token(TokenType.RightParenthesis)
+            token(TokenType.RightBrace)
             token(TokenType.RightBrace)
         }
     }
