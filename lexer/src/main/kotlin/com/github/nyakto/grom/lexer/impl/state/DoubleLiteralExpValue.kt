@@ -4,24 +4,23 @@ import com.github.nyakto.grom.lexer.TokenType
 import com.github.nyakto.grom.lexer.impl.Lexer
 import com.github.nyakto.grom.lexer.impl.State
 
-internal object IntDot : State {
+internal object DoubleLiteralExpValue : State {
     override fun onChar(lexer: Lexer, char: Char) {
         when (char) {
             in '0'..'9' -> {
-                lexer.continueToken(DoubleLiteral)
-                lexer.appendToBuffer('.')
                 lexer.appendToBuffer(char)
             }
+            '_' -> {
+                lexer.continueToken(DoubleLiteralExpValueUnderscore)
+            }
             else -> {
-                lexer.yieldToken(TokenType.Int)
-                lexer.yieldToken(TokenType.DotOperator, ".")
+                lexer.yieldToken(TokenType.Double)
                 lexer.handle(char)
             }
         }
     }
 
     override fun onEOF(lexer: Lexer) {
-        lexer.yieldToken(TokenType.Int)
-        lexer.yieldToken(TokenType.DotOperator, ".")
+        lexer.yieldToken(TokenType.Double)
     }
 }

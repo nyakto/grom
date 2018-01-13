@@ -6,31 +6,31 @@ import com.github.nyakto.grom.lexer.impl.State
 
 internal object Initial : State {
     override fun onChar(lexer: Lexer, char: Char) {
-        when {
-            char.isLetter() -> {
+        when (char) {
+            in 'a'..'z', in 'A'..'Z' -> {
                 lexer.beginToken(Word)
                 lexer.appendToBuffer(char)
             }
-            char.isWhitespace() -> {
+            ' ', '\t', '\r', '\n' -> {
+                char.isWhitespace()
                 lexer.beginToken(Whitespace)
                 lexer.appendToBuffer(char)
             }
-            char == '0' -> {
+            '0' -> {
                 lexer.beginToken(Zero)
                 lexer.appendToBuffer(char)
             }
-            char.isDigit() -> {
+            in '0'..'9' -> {
                 lexer.beginToken(IntLiteral)
                 lexer.appendToBuffer(char)
             }
-            char == '.' -> {
+            '.' -> {
                 lexer.beginToken(Dot)
-                lexer.appendToBuffer(char)
             }
-            char == '{' -> {
+            '{' -> {
                 lexer.yieldToken(TokenType.LeftBrace, "{")
             }
-            char == '}' -> {
+            '}' -> {
                 lexer.yieldToken(TokenType.RightBrace, "}")
             }
             else -> lexer.yieldUnexpectedCharError(char)

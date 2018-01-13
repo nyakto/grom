@@ -3,7 +3,7 @@ package com.github.nyakto.grom.lexer
 class TokenTypeAssertion(
     private val type: TokenType
 ) : TokenAssertion {
-    override fun tokenDescription(token: Token) = token.type.toString()
+    override fun description(token: Token) = token.type.toString()
 
     override fun description() = type.toString()
 

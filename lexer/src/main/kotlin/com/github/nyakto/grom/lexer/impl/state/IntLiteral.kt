@@ -6,20 +6,24 @@ import com.github.nyakto.grom.lexer.impl.State
 
 internal object IntLiteral : State {
     override fun onChar(lexer: Lexer, char: Char) {
-        when {
-            char.isDigit() -> {
+        when (char) {
+            in '0'..'9' -> {
                 lexer.appendToBuffer(char)
             }
-            char == '.' -> {
-                TODO()
+            '.' -> {
+                lexer.continueToken(IntDot)
             }
-            char == '_' -> {
+            '_' -> {
                 lexer.continueToken(IntLiteralUnderscore)
             }
-            char == 'L' -> {
+            'L' -> {
                 lexer.yieldToken(TokenType.Long)
             }
-            char == 'f' || char == 'F' -> {
+            'e', 'E' -> {
+                lexer.continueToken(DoubleLiteralExp)
+                lexer.appendToBuffer(char)
+            }
+            'f', 'F' -> {
                 TODO()
             }
             else -> {

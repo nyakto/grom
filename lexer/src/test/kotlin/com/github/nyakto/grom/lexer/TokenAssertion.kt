@@ -1,7 +1,7 @@
 package com.github.nyakto.grom.lexer
 
 interface TokenAssertion {
-    fun tokenDescription(token: Token): String
+    fun description(token: Token): String
 
     fun description(): String
 

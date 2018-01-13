@@ -71,4 +71,16 @@ class LexerTests {
         "0XfA__3L".assertTokens { token(TokenType.Long, "4003") }
         "0Xf_A_3L".assertTokens { token(TokenType.Long, "4003") }
     }
+
+    @Test
+    fun `double literals have to be recognized`() {
+        ".0".assertTokens { token(TokenType.Double, "0.0") }
+        "0.0".assertTokens { token(TokenType.Double, "0.0") }
+        ".123".assertTokens { token(TokenType.Double, "0.123") }
+        "0.123".assertTokens { token(TokenType.Double, "0.123") }
+        "0.123_456".assertTokens { token(TokenType.Double, "0.123456") }
+        "10e-5".assertTokens { token(TokenType.Double, "10e-5") }
+        "10e-5_0".assertTokens { token(TokenType.Double, "10e-50") }
+        "10e+50".assertTokens { token(TokenType.Double, "10e+50") }
+    }
 }

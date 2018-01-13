@@ -18,7 +18,11 @@ object TokenAssertionsChecker {
                     "unexpected ${token.type}(${token.value}) token, expected end of input",
                     iterator.hasNext()
                 )
-                iterator.next().check(token)
+                val assertion = iterator.next()
+                Assert.assertTrue(
+                    "expected ${assertion.description()}, but got ${assertion.description(token)} token",
+                    assertion.check(token)
+                )
             }
 
             override fun onWhitespaceToken(lexer: Lexer, token: Token) {
