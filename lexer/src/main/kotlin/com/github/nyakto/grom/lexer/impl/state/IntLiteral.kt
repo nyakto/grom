@@ -27,7 +27,7 @@ internal object IntLiteral : State {
                 lexer.yieldToken(TokenType.Float)
             }
             else -> {
-                lexer.yieldWordToken()
+                lexer.yieldToken(TokenType.Int)
                 lexer.handle(char)
             }
         }

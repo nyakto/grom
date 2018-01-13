@@ -33,6 +33,12 @@ internal object Initial : State {
             '}' -> {
                 lexer.yieldToken(TokenType.RightBrace, "}")
             }
+            '(' -> {
+                lexer.yieldToken(TokenType.LeftParenthesis, "(")
+            }
+            ')' -> {
+                lexer.yieldToken(TokenType.RightParenthesis, ")")
+            }
             else -> lexer.yieldUnexpectedCharError(char)
         }
     }

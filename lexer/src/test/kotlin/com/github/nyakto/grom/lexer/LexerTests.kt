@@ -96,4 +96,16 @@ class LexerTests {
         "10e-5_0f".assertTokens { token(TokenType.Float, "10e-50") }
         "10e+50f".assertTokens { token(TokenType.Float, "10e+50") }
     }
+
+    @Test
+    fun `can recognize word after number with dot`() {
+        "5.times(100)".assertTokens {
+            token(TokenType.Int, "5")
+            token(TokenType.DotOperator, ".")
+            token(TokenType.Word, "times")
+            token(TokenType.LeftParenthesis, "(")
+            token(TokenType.Int, "100")
+            token(TokenType.RightParenthesis, ")")
+        }
+    }
 }

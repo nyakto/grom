@@ -14,6 +14,8 @@ enum class TokenType {
 
     LeftBrace,
     RightBrace,
+    LeftParenthesis,
+    RightParenthesis,
 
     DotOperator
 }

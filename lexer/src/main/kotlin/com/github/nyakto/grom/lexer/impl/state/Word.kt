@@ -5,8 +5,8 @@ import com.github.nyakto.grom.lexer.impl.State
 
 internal object Word : State {
     override fun onChar(lexer: Lexer, char: Char) {
-        when {
-            char.isLetterOrDigit() -> {
+        when (char) {
+            in 'a'..'z', in 'A'..'Z', in '0'..'9' -> {
                 lexer.appendToBuffer(char)
             }
             else -> {
