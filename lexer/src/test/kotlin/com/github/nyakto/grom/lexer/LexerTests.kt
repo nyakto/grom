@@ -1,138 +1,74 @@
 package com.github.nyakto.grom.lexer
 
-import org.junit.Assert
+import com.github.nyakto.grom.lexer.TokenAssertionsChecker.assertTokens
 import org.junit.Test
 
 class LexerTests {
-    private fun expectError(
-        expectedError: Throwable,
-        block: () -> Unit
-    ) {
-        var failed = true
-        try {
-            block()
-            failed = false
-        } catch (actualError: Throwable) {
-            Assert.assertTrue(
-                "expected ${expectedError::class.simpleName}, but got ${actualError::class.simpleName} exception",
-                actualError::class == expectedError::class
-            )
-            Assert.assertEquals(expectedError.message, actualError.message)
-        }
-        Assert.assertTrue("no errors occured, but ${expectedError::class.simpleName} expected", failed)
-    }
-
-    @Test
-    fun `checkTokens have to check size`() {
-        expectError(AssertionError("expected less tokens")) {
-            checkTokenTypes("model")
-        }
-        expectError(AssertionError("expected more tokens")) {
-            checkTokenTypes("", TokenType.ModelKeyword)
-        }
-    }
-
     @Test
     fun `example model declaration`() {
-        checkTokenTypes(
-            """
-                model {
-                }
-            """,
-            TokenType.ModelKeyword,
-            TokenType.LeftBrace,
-            TokenType.RightBrace
-        )
+        """
+            model {
+            }
+        """.assertTokens {
+            token(TokenType.ModelKeyword)
+            token(TokenType.LeftBrace)
+            token(TokenType.RightBrace)
+        }
     }
 
     @Test
     fun `example view declaration`() {
-        checkTokenTypes(
-            """
-                view {
-                }
-            """,
-            TokenType.ViewKeyword,
-            TokenType.LeftBrace,
-            TokenType.RightBrace
-        )
+        """
+            view {
+            }
+        """.assertTokens {
+            token(TokenType.ViewKeyword)
+            token(TokenType.LeftBrace)
+            token(TokenType.RightBrace)
+        }
     }
 
     @Test
     fun `keywords have to be recognized`() {
-        checkTokenTypes("model", TokenType.ModelKeyword)
-        checkTokenTypes("view", TokenType.ViewKeyword)
+        "model".assertTokens {
+            token(TokenType.ModelKeyword)
+        }
+        "view".assertTokens {
+            token(TokenType.ViewKeyword)
+        }
 
         Keywords.forEach { keyword ->
-            checkTokenTypes(keyword, Keywords[keyword]!!)
+            keyword.assertTokens {
+                token(Keywords[keyword]!!)
+            }
         }
     }
 
     @Test
     fun `int literals have to be recognized`() {
-        checkTokens("0", Token(1, 1, TokenType.Int, "0"))
-        checkTokens("123", Token(1, 1, TokenType.Int, "123"))
-        checkTokens("123_456", Token(1, 1, TokenType.Int, "123456"))
-        checkTokens("0b101", Token(1, 1, TokenType.Int, "5"))
-        checkTokens("0B1000", Token(1, 1, TokenType.Int, "8"))
-        checkTokens("0B1_000", Token(1, 1, TokenType.Int, "8"))
-        checkTokens("0B1_0_0_0", Token(1, 1, TokenType.Int, "8"))
-        checkTokens("0x123", Token(1, 1, TokenType.Int, "291"))
-        checkTokens("0XfA__3", Token(1, 1, TokenType.Int, "4003"))
-        checkTokens("0Xf_A_3", Token(1, 1, TokenType.Int, "4003"))
+        "0".assertTokens { token(TokenType.Int, "0") }
+        "123".assertTokens { token(TokenType.Int, "123") }
+        "123_456".assertTokens { token(TokenType.Int, "123456") }
+        "0b101".assertTokens { token(TokenType.Int, "5") }
+        "0B1000".assertTokens { token(TokenType.Int, "8") }
+        "0B1_000".assertTokens { token(TokenType.Int, "8") }
+        "0B1_0_0_0".assertTokens { token(TokenType.Int, "8") }
+        "0x123".assertTokens { token(TokenType.Int, "291") }
+        "0XfA__3".assertTokens { token(TokenType.Int, "4003") }
+        "0Xf_A_3".assertTokens { token(TokenType.Int, "4003") }
     }
 
     @Test
     fun `long literals have to be recognized`() {
-        checkTokens("0L", Token(1, 1, TokenType.Long, "0"))
-        checkTokens("123L", Token(1, 1, TokenType.Long, "123"))
-        checkTokens("123_456L", Token(1, 1, TokenType.Long, "123456"))
-        checkTokens("0b101L", Token(1, 1, TokenType.Long, "5"))
-        checkTokens("0B1000L", Token(1, 1, TokenType.Long, "8"))
-        checkTokens("0B1_000L", Token(1, 1, TokenType.Long, "8"))
-        checkTokens("0B1_0_0_0L", Token(1, 1, TokenType.Long, "8"))
-        checkTokens("0x123L", Token(1, 1, TokenType.Long, "291"))
-        checkTokens("0XfA__3L", Token(1, 1, TokenType.Long, "4003"))
-        checkTokens("0Xf_A_3L", Token(1, 1, TokenType.Long, "4003"))
-    }
-
-    private fun <Source, Item> checkTokens(
-        source: Source,
-        lex: Lexer.(Source) -> Unit,
-        ignoreWhitespace: Boolean,
-        itemGetter: (Token) -> Item,
-        vararg items: Item
-    ) {
-        val iterator = items.iterator()
-        val lexer = LexerFactory.createLexer(object : LexerListener {
-            override fun onToken(lexer: Lexer, token: Token) {
-                Assert.assertTrue("expected less tokens", iterator.hasNext())
-                val expected = iterator.next()
-                val actual = itemGetter(token)
-                Assert.assertEquals(expected, actual)
-            }
-
-            override fun onWhitespaceToken(lexer: Lexer, token: Token) {
-                if (!ignoreWhitespace) {
-                    onToken(lexer, token)
-                }
-            }
-        })
-        lex(lexer, source)
-        Assert.assertFalse("expected more tokens", iterator.hasNext())
-    }
-
-    private fun checkTokenTypes(
-        source: String,
-        vararg types: TokenType
-    ) {
-        checkTokens(source, Lexer::lex, true, { it.type }, *types)
-    }
-
-    private fun checkTokens(
-        source: String,
-        vararg tokens: Token
-    ) {
-        checkTokens(source, Lexer::lex, true, { it }, *tokens)
+        "0L".assertTokens { token(TokenType.Long, "0") }
+        "123L".assertTokens { token(TokenType.Long, "123") }
+        "123_456L".assertTokens { token(TokenType.Long, "123456") }
+        "0b101L".assertTokens { token(TokenType.Long, "5") }
+        "0B1000L".assertTokens { token(TokenType.Long, "8") }
+        "0B1_000L".assertTokens { token(TokenType.Long, "8") }
+        "0B1_0_0_0L".assertTokens { token(TokenType.Long, "8") }
+        "0x123L".assertTokens { token(TokenType.Long, "291") }
+        "0XfA__3L".assertTokens { token(TokenType.Long, "4003") }
+        "0Xf_A_3L".assertTokens { token(TokenType.Long, "4003") }
     }
 }
