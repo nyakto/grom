@@ -3,9 +3,9 @@ package com.github.nyakto.grom.lexer
 import org.junit.Assert
 
 object TokenAssertionsChecker {
-    fun String.assertTokens(skipWhitespace: Boolean = true, builder: TokenStreamBuilder.() -> Unit) {
+    fun String.assertTokens(skipWhitespace: Boolean = true, builder: TokenAssertionsBuilder.() -> Unit) {
         val assertions = mutableListOf<TokenAssertion>()
-        builder(object : TokenStreamBuilder {
+        builder(object : TokenAssertionsBuilder {
             override fun assert(assertion: TokenAssertion) {
                 assertions.add(assertion)
             }

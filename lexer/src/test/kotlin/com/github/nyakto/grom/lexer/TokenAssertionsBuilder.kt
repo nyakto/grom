@@ -1,6 +1,6 @@
 package com.github.nyakto.grom.lexer
 
-interface TokenStreamBuilder {
+interface TokenAssertionsBuilder {
     fun assert(assertion: TokenAssertion)
 
     fun token(type: TokenType) = assert(TokenTypeAssertion(type))
