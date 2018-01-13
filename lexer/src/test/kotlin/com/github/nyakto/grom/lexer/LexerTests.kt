@@ -83,4 +83,17 @@ class LexerTests {
         "10e-5_0".assertTokens { token(TokenType.Double, "10e-50") }
         "10e+50".assertTokens { token(TokenType.Double, "10e+50") }
     }
+
+    @Test
+    fun `float literals have to be recognized`() {
+        "123F".assertTokens { token(TokenType.Float, "123") }
+        ".0f".assertTokens { token(TokenType.Float, "0.0") }
+        "0.0f".assertTokens { token(TokenType.Float, "0.0") }
+        ".123f".assertTokens { token(TokenType.Float, "0.123") }
+        "0.123f".assertTokens { token(TokenType.Float, "0.123") }
+        "0.123_456f".assertTokens { token(TokenType.Float, "0.123456") }
+        "10e-5f".assertTokens { token(TokenType.Float, "10e-5") }
+        "10e-5_0f".assertTokens { token(TokenType.Float, "10e-50") }
+        "10e+50f".assertTokens { token(TokenType.Float, "10e+50") }
+    }
 }

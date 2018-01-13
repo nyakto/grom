@@ -17,6 +17,9 @@ internal object DoubleLiteral : State {
                 lexer.continueToken(DoubleLiteralExp)
                 lexer.appendToBuffer(char)
             }
+            'f', 'F' -> {
+                lexer.yieldToken(TokenType.Float)
+            }
             else -> {
                 lexer.yieldToken(TokenType.Double)
                 lexer.handle(char)

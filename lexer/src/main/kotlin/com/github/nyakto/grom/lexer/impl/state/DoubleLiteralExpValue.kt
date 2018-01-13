@@ -13,6 +13,9 @@ internal object DoubleLiteralExpValue : State {
             '_' -> {
                 lexer.continueToken(DoubleLiteralExpValueUnderscore)
             }
+            'f', 'F' -> {
+                lexer.yieldToken(TokenType.Float)
+            }
             else -> {
                 lexer.yieldToken(TokenType.Double)
                 lexer.handle(char)
