@@ -24,21 +24,27 @@ internal object Initial : State {
                 lexer.beginToken(IntLiteral)
                 lexer.appendToBuffer(char)
             }
-            '.' -> {
-                lexer.beginToken(Dot)
-            }
-            '{' -> {
-                lexer.yieldToken(TokenType.LeftBrace, "{")
-            }
-            '}' -> {
-                lexer.yieldToken(TokenType.RightBrace, "}")
-            }
-            '(' -> {
-                lexer.yieldToken(TokenType.LeftParenthesis, "(")
-            }
-            ')' -> {
-                lexer.yieldToken(TokenType.RightParenthesis, ")")
-            }
+            '.' -> lexer.beginToken(Dot)
+            ',' -> lexer.yieldToken(TokenType.CommaOperator, ",")
+            ':' -> lexer.yieldToken(TokenType.ColonOperator, ":")
+            '{' -> lexer.yieldToken(TokenType.LeftBrace, "{")
+            '}' -> lexer.yieldToken(TokenType.RightBrace, "}")
+            '[' -> lexer.yieldToken(TokenType.LeftBracket, "[")
+            ']' -> lexer.yieldToken(TokenType.RightBracket, "]")
+            '(' -> lexer.yieldToken(TokenType.LeftParenthesis, "(")
+            ')' -> lexer.yieldToken(TokenType.RightParenthesis, ")")
+            '+' -> lexer.beginToken(Plus)
+            '-' -> lexer.beginToken(Minus)
+            '!' -> lexer.beginToken(Not)
+            '*' -> lexer.beginToken(Multiply)
+            '/' -> lexer.beginToken(Divide)
+            '%' -> lexer.beginToken(Remainder)
+            '?' -> lexer.beginToken(QuestionMark)
+            '<' -> lexer.beginToken(Less)
+            '>' -> lexer.beginToken(Greater)
+            '&' -> lexer.beginToken(Conjunction)
+            '|' -> lexer.beginToken(Disjunction)
+            '=' -> lexer.beginToken(Assign)
             else -> lexer.yieldUnexpectedCharError(char)
         }
     }

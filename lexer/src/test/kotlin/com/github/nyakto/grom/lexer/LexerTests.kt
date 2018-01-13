@@ -108,4 +108,33 @@ class LexerTests {
             token(TokenType.RightParenthesis, ")")
         }
     }
+
+    @Test
+    fun `can recognize operators`() {
+        "+".assertTokens { token(TokenType.PlusOperator, "+") }
+        "++".assertTokens { token(TokenType.IncrementOperator, "++") }
+        "+=".assertTokens { token(TokenType.PlusAssignOperator, "+=") }
+        "-".assertTokens { token(TokenType.MinusOperator, "-") }
+        "--".assertTokens { token(TokenType.DecrementOperator, "--") }
+        "-=".assertTokens { token(TokenType.MinusAssignOperator, "-=") }
+        "!".assertTokens { token(TokenType.NotOperator, "!") }
+        "!=".assertTokens { token(TokenType.NotEqualsOperator, "!=") }
+        "*".assertTokens { token(TokenType.MultiplyOperator, "*") }
+        "*=".assertTokens { token(TokenType.MultiplyAssignOperator, "*=") }
+        "/".assertTokens { token(TokenType.DivideOperator, "/") }
+        "/=".assertTokens { token(TokenType.DivideAssignOperator, "/=") }
+        "%".assertTokens { token(TokenType.RemainderOperator, "%") }
+        "%=".assertTokens { token(TokenType.RemainderAssignOperator, "%=") }
+        "?".assertTokens { token(TokenType.QuestionMarkOperator, "?") }
+        "?.".assertTokens { token(TokenType.QuestionMarkDotOperator, "?.") }
+        "?:".assertTokens { token(TokenType.ElvisOperator, "?:") }
+        "<".assertTokens { token(TokenType.LessOperator, "<") }
+        "<=".assertTokens { token(TokenType.LessOrEqualsOperator, "<=") }
+        ">".assertTokens { token(TokenType.GreaterOperator, ">") }
+        ">=".assertTokens { token(TokenType.GreaterOrEqualsOperator, ">=") }
+        "&&".assertTokens { token(TokenType.ConjunctionOperator, "&&") }
+        "||".assertTokens { token(TokenType.DisjunctionOperator, "||") }
+        "=".assertTokens { token(TokenType.AssignOperator, "=") }
+        "==".assertTokens { token(TokenType.EqualsOperator, "==") }
+    }
 }
