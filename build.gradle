@@ -46,5 +46,11 @@ subprojects {
     }
 }
 
-project(":lexer") {
+project(":grom-lexer") {
+}
+
+project(":grom-ast") {
+}
+
+project(":grom-parser") {
 }
