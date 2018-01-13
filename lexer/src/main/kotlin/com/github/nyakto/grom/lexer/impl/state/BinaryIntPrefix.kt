@@ -3,20 +3,18 @@ package com.github.nyakto.grom.lexer.impl.state
 import com.github.nyakto.grom.lexer.impl.Lexer
 import com.github.nyakto.grom.lexer.impl.State
 
-internal object Whitespace : State {
+internal object BinaryIntPrefix : State {
     override fun onChar(lexer: Lexer, char: Char) {
-        when {
-            char.isWhitespace() -> {
+        when (char) {
+            '0', '1' -> {
+                lexer.continueToken(BinaryIntLiteral)
                 lexer.appendToBuffer(char)
             }
-            else -> {
-                lexer.yieldWhitespaceToken()
-                lexer.handle(char)
-            }
+            else -> lexer.yieldUnexpectedCharError(char)
         }
     }
 
     override fun onEOF(lexer: Lexer) {
-        lexer.yieldWhitespaceToken()
+        lexer.yieldUnexpectedEOFError()
     }
 }

@@ -8,7 +8,6 @@ internal object Word : State {
         when {
             char.isLetterOrDigit() -> {
                 lexer.appendToBuffer(char)
-                lexer.move()
             }
             else -> {
                 lexer.yieldWordToken()

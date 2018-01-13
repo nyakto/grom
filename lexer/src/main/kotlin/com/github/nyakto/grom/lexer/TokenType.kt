@@ -4,9 +4,16 @@ enum class TokenType {
     Whitespace,
     Word,
 
+    Int,
+    Long,
+    Float,
+    Double,
+
     ModelKeyword,
     ViewKeyword,
 
     LeftBrace,
-    RightBrace
+    RightBrace,
+
+    DotOperator
 }

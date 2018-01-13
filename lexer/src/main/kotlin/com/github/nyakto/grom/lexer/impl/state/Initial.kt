@@ -10,20 +10,28 @@ internal object Initial : State {
             char.isLetter() -> {
                 lexer.beginToken(Word)
                 lexer.appendToBuffer(char)
-                lexer.move()
             }
             char.isWhitespace() -> {
                 lexer.beginToken(Whitespace)
                 lexer.appendToBuffer(char)
-                lexer.move(char)
+            }
+            char == '0' -> {
+                lexer.beginToken(Zero)
+                lexer.appendToBuffer(char)
+            }
+            char.isDigit() -> {
+                lexer.beginToken(IntLiteral)
+                lexer.appendToBuffer(char)
+            }
+            char == '.' -> {
+                lexer.beginToken(Dot)
+                lexer.appendToBuffer(char)
             }
             char == '{' -> {
                 lexer.yieldToken(TokenType.LeftBrace, "{")
-                lexer.move()
             }
             char == '}' -> {
                 lexer.yieldToken(TokenType.RightBrace, "}")
-                lexer.move()
             }
             else -> lexer.yieldUnexpectedCharError(char)
         }

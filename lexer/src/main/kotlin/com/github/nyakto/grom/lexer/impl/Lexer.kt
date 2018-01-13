@@ -21,7 +21,14 @@ internal class Lexer(
         var count = reader.read(buffer)
         while (count > 0) {
             (0 until count).forEach {
-                state.onChar(this, buffer[it])
+                val char = buffer[it]
+                state.onChar(this, char)
+                if (char == '\n') {
+                    line++
+                    column = 1
+                } else {
+                    column++
+                }
             }
             buffer.clear()
             count = reader.read(buffer)
@@ -35,34 +42,25 @@ internal class Lexer(
         startColumn = column
     }
 
+    internal fun continueToken(state: State) {
+        this.state = state
+    }
+
     internal fun handle(char: Char) {
         state.onChar(this, char)
+    }
+
+    internal fun clearBuffer() {
+        buffer.setLength(0)
     }
 
     internal fun appendToBuffer(char: Char) {
         buffer.append(char)
     }
 
-    internal fun move(char: Char) {
-        if (char == '\n') {
-            moveToNewLine()
-        } else {
-            move()
-        }
-    }
-
-    internal fun move() {
-        column++
-    }
-
-    private fun moveToNewLine() {
-        line++
-        column = 1
-    }
-
     private fun reset() {
         beginToken(Initial)
-        buffer.setLength(0)
+        clearBuffer()
     }
 
     inline private fun yieldToken(
@@ -90,6 +88,18 @@ internal class Lexer(
         yieldToken {
             val word = buffer.toString()
             Token(startLine, startColumn, Keywords[word] ?: TokenType.Word, word)
+        }
+    }
+
+    internal fun yieldIntToken(radix: Int) {
+        yieldToken {
+            Token(startLine, startColumn, TokenType.Int, buffer.toString().toInt(radix).toString())
+        }
+    }
+
+    internal fun yieldLongToken(radix: Int) {
+        yieldToken {
+            Token(startLine, startColumn, TokenType.Long, buffer.toString().toLong(radix).toString())
         }
     }
 
